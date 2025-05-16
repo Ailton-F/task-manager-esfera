@@ -49,6 +49,7 @@
 </head>
 <body>
     <div class="container">
+        @include('components.toast');
         <div class="row justify-content-center">
             <div class="col-md-8 d-flex flex-column align-items-center justify-content-center">
                 <div class="card p-4 p-md-5">

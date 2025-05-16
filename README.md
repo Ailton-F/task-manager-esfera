@@ -78,11 +78,11 @@ Substitua `MAIL_USERNAME` e `MAIL_PASSWORD` com suas credenciais reais da Mailtr
 php artisan key:generate
 ```
 
-### 5. Rode as migrações e seeders (se existirem)
+### 5. Rode as migrações e seeders
 
 ```bash
 php artisan migrate
-php artisan db:seed # opcional, se quiser popular dados iniciais
+php artisan db:seed
 ```
 
 ### 6. Suba o servidor local

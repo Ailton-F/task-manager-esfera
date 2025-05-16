@@ -6,18 +6,7 @@
     <x-slot name="content">
         <x-sidebar>
             <x-slot name="content">
-                @if($errors->any())
-                <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                    <strong>Errors:</strong>
-                    <ul>
-                        @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-                @endif
-
+                @include('components.toast');
                 <div class="ps-5 ms-5">
                     <div class="d-flex my-4 justify-content-between align-items-center">
                         <h2 class="fw-bold">My Tasks</h1>
@@ -260,7 +249,7 @@
                         $('#editTaskName').val(taskTitle);
                         $('#editTaskDescription').val(taskDescription);
                         $('#editTaskStatus').val(taskStatus);
-                        
+
                         let selectize = $('#editTaskUsers')[0].selectize;
                         selectize.clear();
                         selectize.clearOptions();

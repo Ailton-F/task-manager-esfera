@@ -82,17 +82,7 @@
                         
                         <form action="{{ route('auth.send_token') }}" method="POST">
                             @csrf
-                            @if (session('status'))
-                                <div class="alert alert-success" role="alert">
-                                    {{ session('status') }}
-                                </div>
-                            @endif
-                            
-                            @if ($errors->any())
-                                <div class="alert alert-danger" role="alert">
-                                    {{ $errors->first() }}
-                                </div>
-                            @endif
+                            @include('components.toast');
                             <div class="mb-4">
                                 <div class="form-floating">
                                     <input type="email" class="form-control" id="email" name="email" placeholder="Email Address" required>
