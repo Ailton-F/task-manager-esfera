@@ -111,7 +111,7 @@
                                     </div>
                                     <div class="mb-3">
                                         <label for="taskUsers" class="col-form-label">Users:</label>
-                                        <select class="form-select taskUsers" name="users[]" id="editTaskUsers" multiple>
+                                        <select class="form-select taskUsers" name="users[]" id="taskUser" multiple>
                                             @foreach ($users as $user)
                                             <option value="{{ $user->id }}">{{ $user->name }}</option>
                                             @endforeach
@@ -145,7 +145,7 @@
                             @else
                             <input type="hidden" name="id" id="editId">
                             <div class="modal-body">
-                                <form action="{{ route('tasks.update', ['task' => $task->id]) }}" method="POST">
+                                <form method="POST" id="editTaskForm">
                                     @csrf
                                     @method('PUT')
                                     <div class="mb-3">
@@ -160,7 +160,7 @@
                                         <label for="editTaskUsers" class="col-form-label">Users:</label>
                                         <select class="form-select taskUsers" name="users[]" id="editTaskUsers" multiple>
                                             @foreach ($users as $user)
-                                            <option {{ in_array($user->id, $task->user()->pluck('users.id')->toArray()) ? 'selected' : '' }}>{{ $user->name }}</option>
+                                            <option value="{{$user->id}}">{{ $user->name }}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -240,11 +240,9 @@
 
                         var taskUsers = [];
                         button.closest('.card').find('.badge').each(function() {
-                            taskUsers.push({
-                                id: $(this).data('user-id'),
-                                name: $(this).text()
-                            });
-                        })
+                            taskUsers.push($(this).data('user-id'));
+                        });
+                        
                         $('#editId').val(taskId);
                         $('#editTaskName').val(taskTitle);
                         $('#editTaskDescription').val(taskDescription);
@@ -252,14 +250,9 @@
 
                         let selectize = $('#editTaskUsers')[0].selectize;
                         selectize.clear();
-                        selectize.clearOptions();
-
-                        selectize.addOption(taskUsers.map(user => ({
-                            text: user.name,
-                            value: user.id
-                        })));
-
-                        selectize.setValue(taskUsers.map(user => user.id));
+                        selectize.addItems(taskUsers);
+                        let formAction = "{{ route('tasks.update', '__ID__') }}";
+                        $('#editTaskForm').attr('action', formAction.replace('__ID__', taskId));
                     });
 
                     $('#deleteTaskModal').on('show.bs.modal', function(event) {

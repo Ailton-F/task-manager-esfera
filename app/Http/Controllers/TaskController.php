@@ -81,19 +81,18 @@ class TaskController extends Controller
         $data = $request->validated();
 
         $task = Task::findOrFail($id);
+
         $task->update([
             'title' => $data['title'],
             'description' => $data['description'],
             'status' => $data['status'],
         ]);
 
-
-        $selectedUsers[] = $data['users'] ?? [];
-        if (!in_array(Auth::id(), $data['users'])) {
-            $selectedUsers[] = Auth::id();
+        if (!in_array(Auth::id(), $data['users']) && Auth::user()->role != 'admin') {
+            array_push($data['users'], Auth::id());
         }
 
-        $task->user()->sync($selectedUsers);
+        $task->user()->sync((array) $data['users']);
         return back()->with('success', 'Task updated successfully');
     }
 
